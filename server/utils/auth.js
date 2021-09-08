@@ -2,10 +2,9 @@ const jwt = require('jsonwebtoken');
 
 const secret = 'mysecretsshhhhh';
 const expiration = '2h';
-const { ApolloServer, gql } = require('apollo-server');
 
 module.exports = {
-  authMiddleware: function({ req, res, next }) {
+  authMiddleware: function({ req }) {
     // allows token to be sent via req.body, req.query, or headers
     let token = req.body.token || req.query.token || req.headers.authorization;
 
@@ -18,7 +17,7 @@ module.exports = {
     }
 
     if (!token) {
-      return res.status(400).json({ message: 'You have no token'});
+      return req;
     }
 
     try {
@@ -28,7 +27,7 @@ module.exports = {
       console.log('Invalid token');
     }
 
-    next();
+    return req;
   },
   signToken: function({ username, email, _id }) {
     const payload = { username, email, _id };
