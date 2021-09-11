@@ -48,7 +48,7 @@ const SearchBooks = () => {
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
       }));
-
+      console.log(bookData);
       setSearchedBooks(bookData);
       setSearchInput('');
     } catch (err) {
@@ -59,10 +59,12 @@ const SearchBooks = () => {
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
+    
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-
+    console.log(bookToSave);
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
+    console.log(token);
 
     if (!token) {
       return false;
